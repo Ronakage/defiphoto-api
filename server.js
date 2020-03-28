@@ -8,3 +8,10 @@ const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 //start listening on our port
 server.listen(port);
+
+
+/*
+$ git add .
+$ git commit -am "make it better"
+$ git push heroku master
+*/
