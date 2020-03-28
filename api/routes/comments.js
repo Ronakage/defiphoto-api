@@ -17,7 +17,6 @@ const Comment = require('../models/comment');
 
 router.get('/', (req,res,next)=> {
     Comment.find()
-    .select('_id text sender commentFile')
     .exec()
     .then(docs => {
         console.log(docs);
@@ -56,7 +55,6 @@ router.post('/',upload.single('commentFile') ,(req,res,next)=> {
 router.get('/:questionId',(req,res,next)=>{
     const id = req.params.questionId;
     Comment.find({questionId :id})
-    .select('_id text type sender commentFile')
     .exec()
     .then(doc => {
         console.log(doc);
@@ -72,27 +70,6 @@ router.get('/:questionId',(req,res,next)=>{
     });
 });
 
-
-// router.patch('/:commentId',(req,res,next)=>{
-//     const id = req.params.commentId;
-//     const updateOps = {};
-//     for (const ops of req.body){
-//         updateOps[ops.propName] = ops.value;
-//     }
-//     Comment.update({_id : id}, {$set : updateOps })
-//     .exec()
-//     .then( result => {
-//         console.log(result);
-//         res.status(200).json({
-//             commentUpdated : id,
-//             Updated : "yes",
-//         });
-//         })
-//     .catch(err => {
-//         console.log(err);
-//         res.status(500).json({error : err})
-//     });
-// });
 
 
 

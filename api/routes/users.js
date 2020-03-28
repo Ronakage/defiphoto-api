@@ -6,6 +6,23 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user')
 
+router.get('/',(req,res,next)=>{
+User.find({$or : [{role : "S"}, {role : "P"}]})
+.exec()
+.then(doc => {
+    console.log(doc);
+    if(doc){
+    res.status(200).json(doc);
+    } else{
+        res.status(404).json({message : 'No such USER for this ROLE'})
+    }
+})
+.catch(err => {
+    console.log(err);
+    res.status(500).json({error : err})
+});
+});
+
 router.post('/signup', (req,res,next)=>{
     User.find({email : req.body.email})
     .exec()
@@ -30,6 +47,12 @@ router.post('/signup', (req,res,next)=>{
                         email : req.body.email,
                         password : hash,
                         role : req.body.role,
+                        schoolYearBegin :req.body.schoolYearBegin,
+                        schoolYearEnd : req.body.schoolYearEnd,
+                        stageName : req.body.stageName,
+                        stageDesc : req.body.stageDesc,
+                        stageBegin : req.body.stageBegin,
+                        stageEnd : req.body.stageEnd,
                     });
                     user
                     .save()
@@ -74,7 +97,13 @@ router.post('/login', (req,res,next) => {
                         firstName :  user[0].firstName,
                         lastName :  user[0].lastName,
                         email : user[0].email,
-                        role :  user[0].role
+                        role :  user[0].role,
+                        schoolYearBegin :user[0].schoolYearBegin,
+                        schoolYearEnd : user[0].schoolYearEnd,
+                        stageName : user[0].stageName,
+                        stageDesc : user[0].stageDesc,
+                        stageBegin : user[0].stageBegin,
+                        stageEnd : user[0].stageEnd,
                     }, "vagrant2020" , {
                         expiresIn : "1h"
                     });
