@@ -21,7 +21,7 @@ router.get('/', (req,res,next)=> {
 
 router.get('/:studentId',(req,res,next)=>{
     const id = req.params.studentId;
-    Question.find({$or : [{reciever : id}, {recievers : id}]})
+    Question.find({recievers : id})
     .exec()
     .then(doc => {
         console.log(doc);
