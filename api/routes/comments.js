@@ -35,8 +35,8 @@ router.post('/',upload.single('commentFile') ,(req,res,next)=> {
         _id : new mongoose.Types.ObjectId(),
         text : req.body.text,
         sender : req.body.sender,
-        commentFile: req.file.path,
-        questionId : req.body.questionId
+        questionId : req.body.questionId,
+        commentFile: req.file.path
     });
     comment.save()
     .then(result => {
