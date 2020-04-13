@@ -52,7 +52,7 @@ router.post('/',upload.single('commentFile') ,(req,res,next)=> {
     });
 });
 
-router.post('/' ,(req,res,next)=> {
+router.post('/noFile' ,(req,res,next)=> {
     console.log(req.file);
     const comment = new Comment({
         _id : new mongoose.Types.ObjectId(),
