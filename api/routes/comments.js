@@ -52,6 +52,29 @@ router.post('/',upload.single('commentFile') ,(req,res,next)=> {
     });
 });
 
+router.post('/' ,(req,res,next)=> {
+    console.log(req.file);
+    const comment = new Comment({
+        _id : new mongoose.Types.ObjectId(),
+        text : req.body.text,
+        sender : req.body.sender,
+        questionId : req.body.questionId,
+        
+    });
+    comment.save()
+    .then(result => {
+        console.log(result);
+        res.status(200).json({
+            message : 'POSTed a Comment',
+            comment : comment
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({error : err})
+    });
+});
+
 
 router.get('/:questionId',(req,res,next)=>{
     const id = req.params.questionId;
