@@ -33,7 +33,6 @@ router.post('/',upload.single('commentFile') ,(req,res,next)=> {
     console.log(req.file);
     const comment = new Comment({
         _id : new mongoose.Types.ObjectId(),
-        text : req.body.text,
         sender : req.body.sender,
         questionId : req.body.questionId,
         commentFile: req.file.path
