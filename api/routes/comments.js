@@ -10,8 +10,23 @@ const GridFsStorage = require('multer-gridfs-storage');
 const methodOverride = require('method-override');
 
 
+
+const mongoURI = 'mongodb+srv://admin:admin@cluster0-mrqmr.azure.mongodb.net/test?retryWrites=true&w=majority';
+
+// Create mongo connection
+const conn = mongoose.createConnection(mongoURI);
+
+// Init gfs
+let gfs;
+
+conn.once('open', () => {
+  // Init stream
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection('comments');
+});
+
 const storage = new GridFsStorage({
-    url: 'mongodb+srv://admin:admin@cluster0-mrqmr.azure.mongodb.net/test?retryWrites=true&w=majority',
+    url: mongoURI,
     file: (req, file) => {
       return new Promise((resolve, reject) => {
         crypto.randomBytes(16, (err, buf) => {
@@ -29,6 +44,19 @@ const storage = new GridFsStorage({
     }
   });
 const upload = multer({storage : storage});
+
+
+
+// @route GET /
+// @desc Loads form
+router.get('/files', (req, res) => {
+    gfs.files.find().toArray((err, files) => {
+      // Check if files
+      if (!files || files.length === 0) {
+        res.json(files);
+      } 
+    });
+  });
 
 
 
