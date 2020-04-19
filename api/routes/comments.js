@@ -1,18 +1,36 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const Comment = require('../models/comment');
 const multer = require('multer');
-const storage = multer.diskStorage({
-    destination : function(req,file,cb){
-        cb(null,'./uploads/');
-    },
-    filename : function(req,file,cb){
-        cb(null, file.originalname);
+const path = require('path');
+const crypto = require('crypto');
+const GridFsStorage = require('multer-gridfs-storage');
+// const Grid = require('gridfs-stream');
+const methodOverride = require('method-override');
+
+
+const storage = new GridFsStorage({
+    url: 'mongodb+srv://admin:admin@cluster0-mrqmr.azure.mongodb.net/test?retryWrites=true&w=majority',
+    file: (req, file) => {
+      return new Promise((resolve, reject) => {
+        crypto.randomBytes(16, (err, buf) => {
+          if (err) {
+            return reject(err);
+          }
+          const filename = buf.toString('hex') + path.extname(file.originalname);
+          const fileInfo = {
+            filename: filename,
+            bucketName: 'comments'
+          };
+          resolve(fileInfo);
+        });
+      });
     }
-});
+  });
 const upload = multer({storage : storage});
 
-const Comment = require('../models/comment');
+
 
 
 router.get('/', (req,res,next)=> {
