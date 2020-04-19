@@ -6,25 +6,22 @@ const multer = require('multer');
 const path = require('path');
 const crypto = require('crypto');
 const GridFsStorage = require('multer-gridfs-storage');
-// const Grid = require('gridfs-stream');
+const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 
 
-
 const mongoURI = 'mongodb+srv://admin:admin@cluster0-mrqmr.azure.mongodb.net/test?retryWrites=true&w=majority';
-
-// Create mongo connection
-const conn = mongoose.createConnection(mongoURI);
+const conn = mongoose.createConnection(mongoURI,{ useNewUrlParser: true, useUnifiedTopology: true});
 
 // Init gfs
 let gfs;
 
 conn.once('open', () => {
-  // Init stream
   gfs = Grid(conn.db, mongoose.mongo);
   gfs.collection('comments');
 });
 
+let filename;
 const storage = new GridFsStorage({
     url: mongoURI,
     file: (req, file) => {
@@ -33,10 +30,11 @@ const storage = new GridFsStorage({
           if (err) {
             return reject(err);
           }
-          const filename = buf.toString('hex') + path.extname(file.originalname);
+           filename = buf.toString('hex') + path.extname(file.originalname);
           const fileInfo = {
             filename: filename,
             bucketName: 'comments'
+
           };
           resolve(fileInfo);
         });
@@ -47,25 +45,15 @@ const upload = multer({storage : storage});
 
 
 
-router.get('/image/:filename', (req, res) => {
+router.get('/file/:filename', (req, res) => {
     gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-      // Check if file
       if (!file || file.length === 0) {
         return res.status(404).json({
           err: 'No file exists'
         });
       }
-  
-      // Check if image
-      if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
-        // Read output to browser
         const readstream = gfs.createReadStream(file.filename);
         readstream.pipe(res);
-      } else {
-        res.status(404).json({
-          err: 'Not an image'
-        });
-      }
     });
   });
 
@@ -85,20 +73,23 @@ router.get('/', (req,res,next)=> {
 });
 
 
+
 router.post('/',upload.single('commentFile') ,(req,res,next)=> {
     console.log(req.file);
     const comment = new Comment({
         _id : new mongoose.Types.ObjectId(),
         sender : req.body.sender,
         questionId : req.body.questionId,
-        commentFile: req.file.path
+        commentFile: req.file.path,
+        fileName : filename
     });
     comment.save()
     .then(result => {
         console.log(result);
         res.status(200).json({
             message : 'POSTed a Comment',
-            comment : comment
+            comment : comment,
+            fileInfo :filename
         });
     })
     .catch(err => {

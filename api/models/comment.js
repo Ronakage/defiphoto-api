@@ -5,7 +5,8 @@ const commentSchema = mongoose.Schema({
     text : {type : String, required : false},
     sender : {type : String, required : true},
     commentFile : {type : String , required : false},
-    questionId : {type : String, required : true}
+    questionId : {type : String, required : true},
+    fileName : {type : String , required : false}
 });
 
 module.exports = mongoose.model('Comment', commentSchema)
