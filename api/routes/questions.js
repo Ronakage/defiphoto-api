@@ -38,7 +38,7 @@ router.get('/:studentId',(req,res,next)=>{
 });
 
 
-router.get('/auProfs',(req,res,next)=>{
+router.post('/auProfs',(req,res,next)=>{
     Question.find({sender : req.body.sender , recievers : req.body.recievers})
     .exec()
     .then(doc => {
