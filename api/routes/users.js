@@ -24,7 +24,7 @@ User.find({$or : [{role : "S"}, {role : "P"}]})
 });
 
 
-router.get('/sup',(req,res,next)=>{
+router.get('/profs',(req,res,next)=>{
     User.find({$or : [{role : "P"}, {role : "A"}]})
     .exec()
     .then(doc => {
