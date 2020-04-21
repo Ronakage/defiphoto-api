@@ -80,7 +80,7 @@ router.post('/',upload.single('commentFile') ,(req,res,next)=> {
         sender : req.body.sender,
         questionId : req.body.questionId,
         commentFile: req.file.path,
-        type : req.body.type,
+        role : req.body.role,
         fileName : filename
 
     });
@@ -106,7 +106,7 @@ router.post('/noFile' ,(req,res,next)=> {
         text : req.body.text,
         sender : req.body.sender,
         questionId : req.body.questionId,
-        type : req.body.type
+        role : req.body.role
         
     });
     comment.save()
