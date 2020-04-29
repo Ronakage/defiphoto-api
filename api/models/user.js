@@ -8,6 +8,7 @@ const userSchema = mongoose.Schema({
     email : {type : String, required : true, match : /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/},
     password : {type : String, required : true},
     role :{type : String, required : true},
+    profId : {type : String, required : true},
     schoolYearBegin :{type : String, required : true},
     schoolYearEnd : {type : String, required : true},
     stageName : {type : String, required : true},
