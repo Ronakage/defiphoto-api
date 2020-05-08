@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
     schoolYearBegin :{type : String, required : true},
     schoolYearEnd : {type : String, required : true},
     stageName : {type : String, required : true},
-    stageDesc : {type : String, required : true},
+    stageDesc : {type : String, required : false},
     stageBegin : {type : String, required : true},
     stageEnd : {type : String, required : true},
 });
