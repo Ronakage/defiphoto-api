@@ -6,6 +6,7 @@ const questionSchema = mongoose.Schema({
     type : {type : String, required : true},
     sender : {type : String, required : true},
     recievers : {type : [String], required : true},
+    isAns : {type : Boolean, default : false ,required : true},
 });
 
 module.exports = mongoose.model('Question', questionSchema)
