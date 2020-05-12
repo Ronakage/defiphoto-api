@@ -44,7 +44,7 @@ router.get('/profs',(req,res,next)=>{
     
 
 router.post('/signup', (req,res,next)=>{
-    User.find({email : req.body.email})
+    User.find({givenId : req.body.givenId})
     .exec()
     .then(user => {
         if (user.length >= 1){
