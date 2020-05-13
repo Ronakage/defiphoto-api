@@ -11,10 +11,10 @@ const userSchema = mongoose.Schema({
     profId : {type : String, required : false},
     schoolYearBegin :{type : String, required : true},
     schoolYearEnd : {type : String, required : true},
-    stageName : {type : String, required : true},
+    stageName : {type : String, required : false},
     stageDesc : {type : String, required : false},
-    stageBegin : {type : String, required : true},
-    stageEnd : {type : String, required : true},
+    stageBegin : {type : String, required : false},
+    stageEnd : {type : String, required : false},
 });
 
 module.exports = mongoose.model('User', userSchema)
