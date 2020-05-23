@@ -12,7 +12,6 @@ const Grid = require('gridfs-stream');
 const mongoURI = 'mongodb+srv://admin:admin@cluster0-mrqmr.azure.mongodb.net/test?retryWrites=true&w=majority';
 const conn = mongoose.createConnection(mongoURI,{ useNewUrlParser: true, useUnifiedTopology: true});
 
-// Init gfs
 let gfs;
 
 conn.once('open', () => {

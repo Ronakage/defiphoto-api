@@ -1,5 +1,4 @@
 const express = require('express');
-//import Router from Express to manage routes easily
 const router = express.Router();
 const mongoose = require('mongoose');
 const Question = require('../models/question');
