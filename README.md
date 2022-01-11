@@ -1,2 +1,2 @@
 # defiphoto-api
-Deploy an API for defiphoto to Heroku
+An API deployed over Heroku for Project Photo
